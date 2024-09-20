@@ -88,7 +88,6 @@ The project utilizes the Plant Village dataset, a comprehensive collection of pl
 
 ## Contributors
 - Jake E. (Project Lead)
-- [Other team members, if any]
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
