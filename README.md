@@ -12,7 +12,6 @@ The project utilizes the Plant Village dataset, a comprehensive collection of pl
 - High-quality, labeled images suitable for machine learning tasks
 
 ## Notebook Contents (CNN_PD.ipynb)
-
 ### 1. Data Preparation
 - **Data Loading**: Scripts to load and organize the Plant Village dataset
 - **Data Splitting**: Techniques for dividing data into training, validation, and test sets
