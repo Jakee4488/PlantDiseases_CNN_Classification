@@ -1,6 +1,8 @@
 # PlantDiseases_CNN_Classification
 Classification of Plant Diseases Using CNN Algorithms
 
+
+
 ## Project Overview
 This project implements a Convolutional Neural Network (CNN) to classify plant diseases based on leaf images. The main goal is to develop an accurate and efficient model for identifying various plant diseases, which can be crucial for early detection and management in agriculture.
 
