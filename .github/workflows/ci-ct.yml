@@ -2,9 +2,9 @@ name: CI/CT Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main1 ]
   pull_request:
-    branches: [ main ]
+    branches: [ main1 ]
   schedule:
     - cron: '0 0 * * 0'  # Weekly retraining on Sunday at midnight
 
