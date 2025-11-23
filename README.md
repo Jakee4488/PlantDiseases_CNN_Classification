@@ -1,77 +1,129 @@
-# MLOps Plant Disease Classification
+# MLOps Plant Disease Classification System
 
-Production-ready MLOps pipeline for CNN-based plant disease classification with comprehensive experiment tracking, automated deployment, and continuous monitoring.
+A production-ready MLOps system for classifying plant diseases (Healthy, Powdery, Rust) using Convolutional Neural Networks (CNNs). This project transforms a research notebook into a scalable, reproducible, and automated machine learning pipeline.
 
-## Project Structure
+## 🏗 Architecture
+
+The system follows MLOps best practices with the following components:
+
+1.  **Data Management**: DVC for dataset versioning and lineage.
+2.  **Experiment Tracking**: MLflow for logging parameters, metrics, and artifacts.
+3.  **Model Development**: Modular TensorFlow/Keras implementation of VGGNet, AlexNet, ResNet, and Custom CNN.
+4.  **CI/CT Pipeline**: GitHub Actions for automated testing and continuous training.
+5.  **Deployment**: FastAPI application containerized with Docker and deployed on Kubernetes.
+6.  **Monitoring**: Prometheus metrics and Evidently AI for data drift detection.
+7.  **Orchestration**: Apache Airflow for automated retraining pipelines.
+
+## 📂 Project Structure
 
 ```
 PlantDiseases_CNN_Classification/
 ├── src/                    # Source code
-│   ├── data/              # Data loading and preprocessing
-│   ├── models/            # Model architectures
+│   ├── data/              # Data loading & augmentation (DVC integrated)
+│   ├── models/            # Model architectures (VGG, AlexNet, ResNet)
 │   ├── config/            # Configuration management
 │   ├── tracking/          # MLflow tracking utilities
-│   └── utils/             # Helper functions
-├── tests/                 # Test suite
-│   ├── unit/             # Unit tests
-│   └── integration/      # Integration tests
-├── serve/                 # API serving
-├── deploy/                # Deployment configs
-├── monitoring/            # Monitoring and drift detection
-├── pipelines/             # Training pipelines
-├── configs/               # Experiment configs
-├── checkpoints/           # Model checkpoints
-├── logs/                  # Training logs
-└── mlruns/               # MLflow experiments
-
+│   ├── utils/             # Visualization & helpers
+│   ├── train.py           # Main training script
+│   └── tune.py            # Hyperparameter tuning script
+├── serve/                 # Model serving
+│   ├── app.py             # FastAPI application
+│   └── Dockerfile         # Container definition
+├── deploy/                # Deployment configurations
+│   └── kubernetes/        # K8s manifests (Deployment, Service, Ingress)
+├── monitoring/            # Observability
+│   └── data_drift_detector.py # Evidently AI drift detection
+├── pipelines/             # Orchestration
+│   └── retraining_pipeline.py # Airflow DAGs
+├── tests/                 # Unit & integration tests
+├── configs/               # YAML experiment configs
+├── .github/workflows/     # CI/CT pipelines
+└── requirements.txt       # Project dependencies
 ```
 
-## Quick Start
+## 🚀 Quick Start
 
-### 1. Install Dependencies
+### Prerequisites
+- Python 3.9+
+- Docker & Kubernetes (optional for local dev)
+- Git
+
+### Installation
+
+1.  **Clone the repository**:
+    ```bash
+    git clone <repository-url>
+    cd PlantDiseases_CNN_Classification
+    ```
+
+2.  **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3.  **Initialize DVC** (if starting fresh):
+    ```bash
+    dvc init
+    # Configure remote storage (e.g., Azure Blob / S3)
+    # dvc remote add -d storage s3://my-bucket/data
+    ```
+
+### Training a Model
+
+Run the training pipeline with default configuration:
+
 ```bash
-pip install -r requirements.txt
+python src/train.py
 ```
 
-### 2. Initialize DVC
+To use a specific model architecture:
+
 ```bash
-dvc init
-dvc remote add -d storage <your-cloud-storage>
+python src/train.py --model vggnet --epochs 20
 ```
 
-### 3. Train Model
-```bash
-python src/train.py --config configs/experiment.yaml
-```
+### Running the API
 
-### 4. Start MLflow UI
-```bash
-mlflow ui
-```
+Start the FastAPI server locally:
 
-### 5. Serve Model
 ```bash
 uvicorn serve.app:app --reload
 ```
 
-## MLOps Components
+Access the API documentation at `http://localhost:8000/docs`.
 
-- **Data Versioning**: DVC for dataset tracking
-- **Experiment Tracking**: MLflow for metrics and model registry
-- **CI/CT**: GitHub Actions for automated testing and training
-- **Deployment**: FastAPI + Kubernetes
-- **Monitoring**: Prometheus + Grafana with drift detection
-- **Retraining**: Apache Airflow for automated pipelines
+## 📊 MLOps Workflows
 
-## Dataset
+### Experiment Tracking
+Launch the MLflow UI to view experiments:
+```bash
+mlflow ui
+```
 
-Plant Diseases Dataset with 3 classes:
-- Healthy
-- Powdery
-- Rust
+### Hyperparameter Tuning
+Run automated grid search:
+```bash
+python src/tune.py --epochs 5
+```
 
-**Source**: [Kaggle Plant Diseases Dataset](https://www.kaggle.com/datasets/vipoooool/new-plant-diseases-dataset)
+### Deployment
+Build and deploy to Kubernetes:
+```bash
+docker build -t plant-disease-classifier:latest -f serve/Dockerfile .
+kubectl apply -f deploy/kubernetes/
+```
 
-## License
+## 📈 Monitoring
 
-See LICENSE file for details.
+- **Metrics**: Prometheus metrics available at `/metrics`
+- **Drift Detection**: Run `python monitoring/data_drift_detector.py` to generate reports
+
+## 🤝 Contributing
+1. Fork the repository
+2. Create a feature branch
+3. Commit changes
+4. Push to the branch
+5. Open a Pull Request
+
+## 📄 License
+[MIT License](LICENSE)
