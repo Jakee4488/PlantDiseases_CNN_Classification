@@ -1,0 +1,81 @@
+# Git ignore patterns for MLOps project
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# TensorFlow/Keras
+*.h5
+*.hdf5
+*.pb
+saved_model/
+checkpoints/
+logs/
+
+# DVC
+.dvc/cache
+.dvc/tmp
+
+# Data (tracked by DVC)
+/data/raw
+/data/processed
+*.dvc
+
+# Model artifacts
+*.pkl
+*.joblib
+*.onnx
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Temporary files
+*.log
+*.tmp
+temp/
