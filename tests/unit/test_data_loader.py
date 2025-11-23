@@ -7,10 +7,7 @@ import tensorflow as tf
 from pathlib import Path
 import sys
 
-# Add src to path
-sys.path.append(str(Path(__file__).parent.parent.parent / 'src'))
-
-from data import PlantDiseaseDataLoader
+from src.data import PlantDiseaseDataLoader
 
 
 @pytest.fixture

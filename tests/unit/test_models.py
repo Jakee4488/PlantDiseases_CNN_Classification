@@ -7,10 +7,7 @@ import tensorflow as tf
 from pathlib import Path
 import sys
 
-# Add src to path
-sys.path.append(str(Path(__file__).parent.parent.parent / 'src'))
-
-from models import get_model, list_available_models
+from src.models import get_model, list_available_models
 
 
 def test_get_custom_cnn():
@@ -34,16 +31,20 @@ def test_list_available_models():
     assert isinstance(models, list)
     assert len(models) > 0
     assert 'custom_cnn' in models
+    assert 'vggnet' in models
+    assert 'alexnet' in models
+    assert 'resnet' in models
 
 
 def test_model_compilation():
     """Test model can be compiled."""
-    model = get_model('custom_cnn')
-    model.compile(
-        optimizer='adam',
-        loss='categorical_crossentropy',
-        metrics=['accuracy']
-    )
-    
-    assert model.optimizer is not None
-    assert model.loss is not None
+    for model_name in ['custom_cnn', 'vggnet', 'resnet']:
+        model = get_model(model_name, input_shape=(256, 256, 3), num_classes=3)
+        model.compile(
+            optimizer='adam',
+            loss='categorical_crossentropy',
+            metrics=['accuracy']
+        )
+        
+        assert model.optimizer is not None
+        assert model.loss is not None

@@ -163,6 +163,40 @@ def train_model(config: ExperimentConfig):
         }
         tracker.log_metrics(test_metrics)
         
+        # Generate predictions for visualization
+        print('\nGenerating visualizations...')
+        y_pred_proba = model.predict(test_ds)
+        y_pred = np.argmax(y_pred_proba, axis=1)
+        
+        # Get true labels
+        y_true = np.concatenate([y for x, y in test_ds], axis=0)
+        y_true_indices = np.argmax(y_true, axis=1)
+        
+        # Plot and log confusion matrix
+        from utils import plot_confusion_matrix, plot_roc_curves, plot_training_history
+        
+        cm_fig = plot_confusion_matrix(
+            y_true_indices,
+            y_pred,
+            data_loader.class_names
+        )
+        tracker.log_figure(cm_fig, 'confusion_matrix.png')
+        plt.close(cm_fig)
+        
+        # Plot and log ROC curves
+        roc_fig = plot_roc_curves(
+            y_true,
+            y_pred_proba,
+            data_loader.class_names
+        )
+        tracker.log_figure(roc_fig, 'roc_curves.png')
+        plt.close(roc_fig)
+        
+        # Plot and log training history
+        history_fig = plot_training_history(history.history)
+        tracker.log_figure(history_fig, 'training_history.png')
+        plt.close(history_fig)
+        
         # Save model to MLflow
         print('\nSaving model to MLflow...')
         tracker.log_model(
